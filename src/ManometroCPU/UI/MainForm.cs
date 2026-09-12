@@ -9,12 +9,15 @@ public sealed class MainForm : Form
     private readonly Label connection = new() { AutoSize = true };
     private readonly Label status = new() { AutoSize = true, MaximumSize = new(470, 0) };
     private readonly Button connect = new() { Text = "Desconectar", AutoSize = true };
-    private readonly NotifyIcon tray = new() { Icon = SystemIcons.Application, Visible = true, Text = "Manometro CPU" };
+    private readonly Icon trayIcon = LoadTrayIcon();
+    private readonly NotifyIcon tray = new() { Text = "Manometro CPU" };
     private readonly System.Windows.Forms.Timer timer = new() { Interval = 250 };
     private readonly AppController controller;
     private bool enabled = true, exiting, stopped;
     public MainForm(bool minimized, AppSettings? initialSettings = null)
     {
+        tray.Icon = trayIcon;
+        tray.Visible = true;
         Text = "Manometro CPU"; ClientSize = new(550, 350); MinimumSize = new(560, 390);
         Font = new("Segoe UI", 10); BackColor = Color.FromArgb(245, 247, 250); StartPosition = FormStartPosition.CenterScreen;
         var log = new LogService();
@@ -51,6 +54,13 @@ public sealed class MainForm : Form
         timer.Tick += (_, _) => RefreshState();
         FormClosing += OnClosing;
     }
+    private static Icon LoadTrayIcon()
+    {
+        using var stream = typeof(MainForm).Assembly.GetManifestResourceStream("ManometroCPU.AppIcon")
+            ?? throw new InvalidOperationException("Ícone do aplicativo não encontrado.");
+        using var icon = new Icon(stream, SystemInformation.SmallIconSize);
+        return (Icon)icon.Clone();
+    }
     private static void AddButton(Control parent, string text, Action action)
     { var b = new Button { Text = text, AutoSize = true }; b.Click += (_, _) => action(); parent.Controls.Add(b); }
     private async void ShowSettings()
@@ -80,6 +90,6 @@ public sealed class MainForm : Form
         if (exiting && !Enabled) return;
         exiting = true; Enabled = false; timer.Stop(); controller.Stop();
         if (controller.Worker != null) await controller.Worker;
-        tray.Visible = false; tray.Dispose(); timer.Dispose(); controller.Dispose(); stopped = true; Close();
+        tray.Visible = false; tray.Dispose(); trayIcon.Dispose(); timer.Dispose(); controller.Dispose(); stopped = true; Close();
     }
 }
