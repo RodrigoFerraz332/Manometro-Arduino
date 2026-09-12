@@ -1,0 +1,32 @@
+{
+  "AutoPort": true,
+  "ManualPort": "",
+  "LastPort": "",
+  "LastDeviceId": "",
+  "BaudRate": 9600,
+  "SensorId": "",
+  "ReadIntervalMs": 1000,
+  "SendIntervalMs": 1000,
+  "TempMin": 30,
+  "TempMax": 95,
+  "Smoothing": "Ema",
+  "EmaAlpha": 0.25,
+  "AverageWindow": 5,
+  "Deadband": 0.3,
+  "StepIntervalMs": 120,
+  "SafeMcp": 25,
+  "StartWithWindows": false,
+  "MinimizeToTray": true,
+  "Output": "CalibratedMcp",
+  "Calibration": [
+    { "Temperature": 30, "Mcp": 25 },
+    { "Temperature": 40, "Mcp": 22 },
+    { "Temperature": 50, "Mcp": 18 },
+    { "Temperature": 60, "Mcp": 14 },
+    { "Temperature": 70, "Mcp": 10 },
+    { "Temperature": 75, "Mcp": 8 },
+    { "Temperature": 80, "Mcp": 6 },
+    { "Temperature": 90, "Mcp": 2 },
+    { "Temperature": 95, "Mcp": 0 }
+  ]
+}

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ManometroCPU/ManometroCPU.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ManometroCPU.Tests/ManometroCPU.Tests.csproj" />
+  </Folder>
+</Solution>
